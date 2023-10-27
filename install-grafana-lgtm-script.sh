@@ -1,16 +1,16 @@
-
-sudo apt update && sudo apt install -y curl apt-transport-https gnupg2 ca-certificates lsb-release unzip software-properties-common
-
-
-
-#helm
-curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
-sudo apt update
-sudo apt install -y  helm
-
-# kubectl
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
-sudo chmod +x /usr/local/bin/kubectl
+# 
+# sudo apt update && sudo apt install -y curl apt-transport-https gnupg2 ca-certificates lsb-release unzip software-properties-common
+# 
+# 
+# 
+# #helm
+# curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+# sudo apt update
+# sudo apt install -y  helm
+# 
+# # kubectl
+# curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
+# sudo chmod +x /usr/local/bin/kubectl
 
 # Docker
 # for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove $pkg; done
@@ -68,11 +68,11 @@ helm install lk oci://registry-1.docker.io/bitnamicharts/grafana-loki
     # User Permission: The database user should only be granted SELECT permissions on the specified database & tables you want to query. Grafana does not validate that queries are safe so queries can contain any SQL statement. For example, statements like USE otherdb; and DROP TABLE user; would be executed. To protect against this we Highly recommend you create a specific MySQL user with restricted permissions. Check out the MySQL Data Source Docs for more information.
 
 helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
-kubectl apply -f my-otel-demo-values.yaml
+# kubectl apply -f my-otel-demo-values.yaml
 
-helm install my-otel-demo open-telemetry/opentelemetry-demo \
-sleep 200
-kubectl --namespace default port-forward svc/my-otel-demo-frontendproxy 8080:8080
+helm install my-otel-demo open-telemetry/opentelemetry-demo 
+
+# kubectl --namespace default port-forward svc/my-otel-demo-frontendproxy 8080:8080
 
 
 # ec2-52-41-105-216.us-west-2.compute.amazonaws.com
