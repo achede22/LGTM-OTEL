@@ -1,0 +1,262 @@
+helm install tmp oci://registry-1.docker.io/bitnamicharts/grafana-tempo
+
+
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /home/achede/.kube/config
+WARNING: Kubernetes configuration file is world-readable. This is insecure. Location: /home/achede/.kube/config
+Pulled: registry-1.docker.io/bitnamicharts/grafana-tempo:2.4.13
+Digest: sha256:4e509462449b97a950daed2ab6e591d00f6f189de3e8ebf2cf45adc5973d79dd
+NAME: tmp
+LAST DEPLOYED: Thu Oct 26 10:55:15 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+CHART NAME: grafana-tempo
+CHART VERSION: 2.4.13
+APP VERSION: 2.2.4
+
+** Please be patient while the chart is being deployed **
+
+Installed components:
+
+  * ingester
+  * distributor
+  * querier
+  * query-frontend
+  * compactor
+  * vulture
+
+1. Get the query-frontend URL by running these commands:
+    echo "The Query Frontend is available at http://127.0.0.1:3200"
+    kubectl port-forward svc/tmp-grafana-tempo-query-frontend 3200:3200 &
+
+
+
+
+#####################3
+
+
+helm install gfn oci://registry-1.docker.io/bitnamicharts/grafana
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /home/achede/.kube/config
+WARNING: Kubernetes configuration file is world-readable. This is insecure. Location: /home/achede/.kube/config
+Pulled: registry-1.docker.io/bitnamicharts/grafana:9.4.1
+Digest: sha256:275375ad1cb62cdd630a9262c6400e39bfb3f7e3e403e56d877d06be5516f850
+NAME: gfn
+LAST DEPLOYED: Thu Oct 26 10:56:04 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+CHART NAME: grafana
+CHART VERSION: 9.4.1
+APP VERSION: 10.2.0
+
+** Please be patient while the chart is being deployed **
+
+1. Get the application URL by running these commands:
+    echo "Browse to http://127.0.0.1:8080"
+    kubectl port-forward svc/gfn-grafana 8080:3000 &
+
+2. Get the admin credentials:
+
+    echo "User: admin"
+    echo "Password: $(kubectl get secret gfn-grafana-admin --namespace default -o jsonpath="{.data.GF_SECURITY_ADMIN_PASSWORD}" | base64 -d)"
+
+
+
+#################################
+
+
+
+helm install lk oci://registry-1.docker.io/bitnamicharts/grafana-loki
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /home/achede/.kube/config
+WARNING: Kubernetes configuration file is world-readable. This is insecure. Location: /home/achede/.kube/config
+Pulled: registry-1.docker.io/bitnamicharts/grafana-loki:2.11.12
+Digest: sha256:430d1b427d3fde8be5a99b92295b9c00a57daeba610069085246326623d0c8d6
+NAME: lk
+LAST DEPLOYED: Thu Oct 26 10:57:21 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+CHART NAME: grafana-loki
+CHART VERSION: 2.11.12
+APP VERSION: 2.9.2
+
+** Please be patient while the chart is being deployed **
+
+Installed components:
+
+  * ingester
+  * distributor
+  * querier
+  * query-frontend
+  * promtail
+  * compactor
+  * gateway
+
+1. Get the gateway URL by running these commands:
+    echo "The Gateway is available at http://127.0.0.1:80"
+    kubectl port-forward svc/lk-grafana-loki-gateway 80:80 &
+
+
+
+################
+
+
+
+helm install mg oci://registry-1.docker.io/bitnamicharts/mongodb
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /home/achede/.kube/config
+WARNING: Kubernetes configuration file is world-readable. This is insecure. Location: /home/achede/.kube/config
+Pulled: registry-1.docker.io/bitnamicharts/mongodb:14.0.13
+Digest: sha256:fa7bcd75e7e37a5ea2b63c31e05a92d3d4015ab3dd4e706879226c0ba76bd2d6
+NAME: mg
+LAST DEPLOYED: Thu Oct 26 10:58:14 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+CHART NAME: mongodb
+CHART VERSION: 14.0.13
+APP VERSION: 7.0.2
+
+** Please be patient while the chart is being deployed **
+
+MongoDB&reg; can be accessed on the following DNS name(s) and ports from within your cluster:
+
+    mg-mongodb.default.svc.cluster.local
+
+To get the root password run:
+
+    export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace default mg-mongodb -o jsonpath="{.data.mongodb-root-password}" | base64 -d)
+
+To connect to your database, create a MongoDB&reg; client container:
+
+    kubectl run --namespace default mg-mongodb-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:7.0.2-debian-11-r7 --command -- bash
+
+Then, run the following command:
+    mongosh admin --host "mg-mongodb" --authenticationDatabase admin -u $MONGODB_ROOT_USER -p $MONGODB_ROOT_PASSWORD
+
+To connect to your database from outside the cluster execute the following commands:
+
+    kubectl port-forward --namespace default svc/mg-mongodb 27017:27017 &
+    mongosh --host 127.0.0.1 --authenticationDatabase admin -p $MONGODB_ROOT_PASSWORD
+
+
+
+
+####################################
+
+
+ helm install pmt oci://registry-1.docker.io/bitnamicharts/prometheus
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /home/achede/.kube/config
+WARNING: Kubernetes configuration file is world-readable. This is insecure. Location: /home/achede/.kube/config
+Pulled: registry-1.docker.io/bitnamicharts/prometheus:0.3.6
+Digest: sha256:993c601f9961137a6aa90f93193b420739ef914bd3cceba5c81777aa6c74809a
+NAME: pmt
+LAST DEPLOYED: Thu Oct 26 10:59:07 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+CHART NAME: prometheus
+CHART VERSION: 0.3.6
+APP VERSION: 2.47.2
+
+** Please be patient while the chart is being deployed **
+
+Prometheus can be accessed via port "80" on the following DNS name from within your cluster:
+
+    pmt-prometheus.default.svc.cluster.local
+
+To access Prometheus from outside the cluster execute the following commands:
+
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        Watch the status with: 'kubectl get svc --namespace default -w pmt-prometheus'
+
+    export SERVICE_IP=$(kubectl get svc --namespace default pmt-prometheus --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")
+    echo "Prometheus URL: http://$SERVICE_IP/"
+
+Watch the Alertmanager StatefulSet status using the command:
+
+    kubectl get sts -w --namespace default -l app.kubernetes.io/name=pmt-prometheus-alertmanager,app.kubernetes.io/instance=pmt
+
+Alertmanager can be accessed via port "80" on the following DNS name from within your cluster:
+
+    pmt-prometheus-alertmanager.default.svc.cluster.local
+
+To access Alertmanager from outside the cluster execute the following commands:
+
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        Watch the status with: 'kubectl get svc --namespace default -w pmt-prometheus-alertmanager'
+
+    export SERVICE_IP=$(kubectl get svc --namespace default pmt-prometheus-alertmanager --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")
+    echo "Alertmanager URL: http://$SERVICE_IP/"
+
+
+
+
+############################
+
+
+$ helm install my-otel-demo open-telemetry/opentelemetry-demo
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /home/achede/.kube/config
+WARNING: Kubernetes configuration file is world-readable. This is insecure. Location: /home/achede/.kube/config
+NAME: my-otel-demo
+LAST DEPLOYED: Thu Oct 26 11:03:42 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+=======================================================================================
+
+
+ ██████╗ ████████╗███████╗██╗         ██████╗ ███████╗███╗   ███╗ ██████╗
+██╔═══██╗╚══██╔══╝██╔════╝██║         ██╔══██╗██╔════╝████╗ ████║██╔═══██╗
+██║   ██║   ██║   █████╗  ██║         ██║  ██║█████╗  ██╔████╔██║██║   ██║
+██║   ██║   ██║   ██╔══╝  ██║         ██║  ██║██╔══╝  ██║╚██╔╝██║██║   ██║
+╚██████╔╝   ██║   ███████╗███████╗    ██████╔╝███████╗██║ ╚═╝ ██║╚██████╔╝
+ ╚═════╝    ╚═╝   ╚══════╝╚══════╝    ╚═════╝ ╚══════╝╚═╝     ╚═╝ ╚═════╝
+
+
+- All services are available via the Frontend proxy: http://localhost:8080
+  by running these commands:
+     kubectl --namespace default port-forward svc/my-otel-demo-frontendproxy 8080:8080
+
+  The following services are available at these paths once the proxy is exposed:
+  Webstore             http://localhost:8080/
+  Grafana              http://localhost:8080/grafana/
+  Feature Flags UI     http://localhost:8080/feature/
+  Load Generator UI    http://localhost:8080/loadgen/
+  Jaeger UI            http://localhost:8080/jaeger/ui/
+achede@hd-lenovo:~$ 
+
+
+
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+docker run hello-world
+
+
+
+
+sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils1.
+minikube config set driver qemu2
+
+minikube start --driver=docker
+
+# minikube start --driver=qemu --network=docker
+# minikube start --driver=qemu --network=bridge
+#Exiting due to GUEST_DRIVER_MISMATCH: The existing "minikube" cluster was created using the "docker" driver, which is incompatible with requested "qemu2" driver.
+#💡  Suggestion: Delete the existing 'minikube' cluster using: 'minikube delete', or start the existing 'minikube' cluster using: 'minikube start --driver=docker'
+
+# enabled addons: storage-provisioner, default-storageclass
+
+
+ssh -i "lgtm-stack.pem" admin@ec2-52-41-105-216.us-west-2.compute.amazonaws.com
