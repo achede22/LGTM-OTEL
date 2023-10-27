@@ -31,10 +31,12 @@
 
 
 # minikube
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
-minikube start --driver=docker
-minikube kubectl -- get po -A
+# curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+# sudo install minikube-linux-amd64 /usr/local/bin/minikube
+# minikube start --driver=docker
+# minikube kubectl -- get po -A
+minikube delete
+microk8s start
 
 
 # aws-cli
@@ -53,13 +55,13 @@ minikube kubectl -- get po -A
 # helm install pmt oci://registry-1.docker.io/bitnamicharts/prometheus
 
 # Add bitnami repo
-helm repo add bitnami https://charts.bitnami.com/bitnami
+sudo microk8s helm repo add bitnami https://charts.bitnami.com/bitnami
 
 # Install Grfana Tempo
-helm install tmp oci://registry-1.docker.io/bitnamicharts/grafana-tempo
+sudo microk8s helm install tmp oci://registry-1.docker.io/bitnamicharts/grafana-tempo
 
 # Install Graafana Loki
-helm install lk oci://registry-1.docker.io/bitnamicharts/grafana-loki
+sudo microk8s helm install lk oci://registry-1.docker.io/bitnamicharts/grafana-loki
 
 
 
@@ -67,10 +69,10 @@ helm install lk oci://registry-1.docker.io/bitnamicharts/grafana-loki
 
     # User Permission: The database user should only be granted SELECT permissions on the specified database & tables you want to query. Grafana does not validate that queries are safe so queries can contain any SQL statement. For example, statements like USE otherdb; and DROP TABLE user; would be executed. To protect against this we Highly recommend you create a specific MySQL user with restricted permissions. Check out the MySQL Data Source Docs for more information.
 
-helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
+sudo microk8s helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 # kubectl apply -f my-otel-demo-values.yaml
 
-helm install my-otel-demo open-telemetry/opentelemetry-demo 
+sudo microk8s helm install my-otel-demo open-telemetry/opentelemetry-demo 
 
 # kubectl --namespace default port-forward svc/my-otel-demo-frontendproxy 8080:8080
 
